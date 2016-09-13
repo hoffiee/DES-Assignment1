@@ -17,7 +17,8 @@ P1 = create_automaton(...
          'q2', 'd', 'q3'},... % Transitions (source, event, target)
         {'q7'});   % Marked states   
 
-    reach(P1.init, P1.trans)
 
+
+filter_trans_by_source(P1.init, P1.trans);
 
 
