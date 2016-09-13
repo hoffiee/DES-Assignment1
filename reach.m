@@ -1,11 +1,10 @@
 % 1. function reach_states = reach(start_states, trans)
 % Returns the forward reachable states of a transition set
 
-
 % ========================================================
 % ======== This function seems to be working with the 
 % ======== example that was given at lecture 12/9
-% ======== TODO - Kommentera
+% ======== TODO - Comment and structure code
 % ========================================================
 
 function reach_states = reach(start_states, trans)
