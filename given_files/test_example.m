@@ -25,7 +25,7 @@ P2 = create_automaton(...
 % Test av givna funktioner
 %P1.states{1}
 
-
+% Test
 %P1P2.states={}
 %P1P2.states=[P1P2.states {merge_state(P1.states{1}, P2.states{1})}];
 %P1P2.states=[P1P2.states {merge_state(P1.states{2}, P2.states{2})}];
