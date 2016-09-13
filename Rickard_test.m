@@ -1,13 +1,17 @@
 %% Implement three functions
-clear all, close all, clf, clc, format compact
-
-% 1. function reach_states = reach(start_states, trans)
-% Returns the forward reachable states of a transition set
-% 2. function coreach_states = coreach(start_states, trans)
-% Returns the coreachable (backward reachable) states of a transition set
-% 3. function aut1aut2 = synch(aut1, aut2)
-% Returns the synchronous composition of two automata
+clear all, clf, close all, clc, format compact
 
 
+
+
+P1 = create_automaton(...
+        {'p11','p12'},...   % States
+        'p11',...         % Initial state
+        {'a', 'b'},...   % Events (Alphabet)
+        {'p11', 'a', 'p12';
+         'p12', 'b', 'p11'},... % Transitions (source, event, target)
+        {'p11','p12'});   % Marked states   
+
+P1
 
 
