@@ -21,17 +21,8 @@ P2 = create_automaton(...
         {'p21','p22'});   % Marked states
 %fig(P2, 'P2');
 
-
-% Test av givna funktioner
 %P1.states{1}
 
 
-%P1P2.states={}
-%P1P2.states=[P1P2.states {merge_state(P1.states{1}, P2.states{1})}];
-%P1P2.states=[P1P2.states {merge_state(P1.states{2}, P2.states{2})}];
-
-%P1.states
-%P1P2.states
-
-
-
+P1P2.states={}
+P1P2.states=[ P1P2.states{ merge_state(P1.states{1},P2.states{1})}];
