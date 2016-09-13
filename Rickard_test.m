@@ -15,13 +15,16 @@ P1 = create_automaton(...
          'q5', 'c', 'q6';
          'q6', 'd', 'q7';
          'q2', 'd', 'q3'},... % Transitions (source, event, target)
-        {'q7'});   % Marked states   
+        {'q7','q9'});   % Marked states   
 
 
 %P1.init
 %P1.states
+
+%filter_trans_by_source(P1.trans,P1.init)
 reach(P1.init, P1.trans)
 coreach(P1.marked, P1.trans)
+
 
 
 
