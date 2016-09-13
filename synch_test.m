@@ -18,19 +18,20 @@ B = create_automaton(...
          'qb2', 'b', 'qb1'},... % Transitions (source, event, target)
         {'qb1'});   % Marked states
 
-%synch(A,B)
+synch(A,B)
 
 
 
-sA=size(A.states);
-sB=size(B.states);
-aut1aut2 = {{}};
-for i = 1:sA(2)
-    for j = 1:sB(2)
-        aut1aut2 = {aut1aut2; {A.states{i} B.states{j}}};
-    end
-end
-
-aut1aut2
+% sA=size(A.states);
+% sB=size(B.states);
+% aut1aut2 = {};
+% for i = 1:sA(2)
+%     for j = 1:sB(2)
+%         aut1aut2 = [aut1aut2 merge_state(A.states{i},B.states{j})];
+%     end
+% end
+% 
+% aut1aut2
+% 
 
      
