@@ -1,6 +1,12 @@
 % 1. function reach_states = reach(start_states, trans)
 % Returns the forward reachable states of a transition set
 
+
+% ========================================================
+% ======== This function seems to be working with the 
+% ======== example that was given at lecture 12/9
+% ========================================================
+
 function reach_states = reach(start_states, trans)
 
 % Sorts the states that is reachable from through all transitions
