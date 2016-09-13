@@ -18,7 +18,8 @@ P1 = create_automaton(...
         {'q7'});   % Marked states   
 
 
-
-filter_trans_by_source(P1.init, P1.trans);
+%P1.init
+%P1.states
+reach(P1.init, P1.trans)
 
 
