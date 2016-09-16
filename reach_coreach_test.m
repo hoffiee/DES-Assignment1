@@ -1,9 +1,10 @@
-% Implement three functions
+% This script tests the functionality of both reach.m
+% and coreach.m with an example given at lecture
+% there the outcome is known.
 clear all, clf, close all, clc, format compact
 
 
-
-
+% Create given example automaton 
 P1 = create_automaton(...
         {'q1','q2','q3','q4','q5','q6','q7','q8','q9',},...   % States
         'q1',...         % Initial state
@@ -17,13 +18,8 @@ P1 = create_automaton(...
          'q2', 'd', 'q3'},... % Transitions (source, event, target)
         {'q7'});   % Marked states   
 
-%P1.init
-%P1.states
-
-%filter_trans_by_source(P1.trans,P1.init)
 tic
 reach(P1.init, P1.trans)
-
 coreach(P1.marked, P1.trans)
 toc
 

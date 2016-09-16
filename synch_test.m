@@ -1,4 +1,5 @@
-% H?r testar vi synchfunktionen med en automata
+% This script is used to test the functionality of synch.m
+% It will be tested with two automatas given at lecture 5, 12/9.
 clear all, clf, close all, clc, format compact
 
 A = create_automaton(...
