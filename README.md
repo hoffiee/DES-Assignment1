@@ -6,7 +6,8 @@ Source code for Assignment 1 in the course Discrete event systems
 1. Task 1, implement three functions
 	- reach.m  - Works with lecture example
 	- coreac.m - Works with lecture example
-2. Task 2, 
+	- Synch.m - Not done!
+2. Task 2 - Not done!
 
 
 Author
