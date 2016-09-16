@@ -1,4 +1,4 @@
-%% Implement three functions
+% Implement three functions
 clear all, clf, close all, clc, format compact
 
 
@@ -21,9 +21,11 @@ P1 = create_automaton(...
 %P1.states
 
 %filter_trans_by_source(P1.trans,P1.init)
+tic
 reach(P1.init, P1.trans)
-coreach(P1.marked, P1.trans)
 
+coreach(P1.marked, P1.trans)
+toc
 
 
 

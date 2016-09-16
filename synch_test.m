@@ -22,6 +22,7 @@ synch(A,B)
 
 
 
+
 % sA=size(A.states);
 % sB=size(B.states);
 % aut1aut2 = {};
