@@ -54,20 +54,33 @@ function aut1aut2 = synch(aut1, aut2)
 
     % Make self loops so that aut1 and aut2 becomes aut1' aut2'
 
+
+
     % self loops for aut2
-    not_in_aut2 = setdiff(aut1.events, aut2.events)
+    not_in_aut2 = setdiff(aut1.events, aut2.events);
     % If there are no events that isnt included in 
     % aut1, then do nothing, else add self loops
-    if isempty(not_in_aut2) == 0
-        s_states= size(aut2.states);
-        for i = 1:s_states(2)
-            aut2_reachable=reach(aut2.init, aut2.trans)
-    end
+    % if isempty(not_in_aut2) == 0
+    %     s_states= size(aut2.states);
+    %     for i = 1:s_states(2)
+    %         for j = size(not_in_aut2)
+    %             aut2.trans=[aut2.trans; {aut2.states{i}, not_in_aut2{j} ,aut2.states{i}}]
+    %         end
+    %     end
+    % end
 
+    disp('without self loops')
+
+    
+    aut2.trans
+
+    aut2 = add_self_loops(aut2,not_in_aut2);
+    disp('with self loops')
+    aut2.trans
 
 
     % Börja med common
-    saut = size(states)
+    saut = size(states);
     for i = 1:saut(2)
         % c_state=states{i}
         % s=size(c_state)

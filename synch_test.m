@@ -21,6 +21,5 @@ B = create_automaton(...
 
 
 tic
-reach(A.init, A.trans)
-%synch(A,B)
+synch(A,B);
 toc
