@@ -21,8 +21,9 @@ while 1
     found_trans = filter_trans_by_source(trans, new_states);
     
     % Only find new states, this is to minimize the calculations
-    % needed for bigger automatas
-    new_states = unique([found_trans(:,3)']);
+    % needed for bigger automatas, setdiff was needed to prevent inf loop
+    % at for example automata A from example with synched automatas from lecture
+    new_states = setdiff(unique([found_trans(:,3)']),start_states);
 
     % Combines old states with the new
     start_states = unique([start_states new_states]);
@@ -41,7 +42,6 @@ while 1
     if isempty(new_states)
     	break;
     end
-
 
     % There was no notable difference during the example
     % this could be due to the example being a small
