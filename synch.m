@@ -58,7 +58,7 @@ function aut1aut2 = synch(aut1, aut2)
         % c_state(1:round(s(2)/2)-1)
         % c_state(round(s(2)/2)+1:end)
 
-        [s1 s2] = split_state(states{i}
+        [s1 s2] = split_state(states{i});
     end
 
 
@@ -94,7 +94,7 @@ function aut1aut2 = synch(aut1, aut2)
         merge_state(aut1.init, aut2.init),...         % Initial state
         events,...   % Events (Alphabet)
         {},... % Transitions (source, event, target)
-        marked) % Marked states
+        marked); % Marked states
 
 end
         

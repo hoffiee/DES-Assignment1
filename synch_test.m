@@ -19,8 +19,7 @@ B = create_automaton(...
          'qb2', 'b', 'qb1'},... % Transitions (source, event, target)
         {'qb1'});   % Marked states
 
-AB=synch(A,B)
 
-
-
-     
+tic
+synch(A,B)
+toc
