@@ -19,9 +19,7 @@ P1 = create_automaton(...
         {'q7'});   % Marked states   
 
 tic
-reach(P1.init, P1.trans)
-coreach(P1.marked, P1.trans)
+reach(P1.init, P1.trans, P1.forbidden)
+coreach(P1.marked, P1.trans, P1.forbidden)
 toc
-
-
 

@@ -7,11 +7,11 @@
 % ======== TODO - Comment and structure code
 % ========================================================
 
-function reach_states = reach(start_states, trans)
+function reach_states = reach(start_states, trans, forbidden_states)
 
 % During our first iteration, we want our new_states
 % to be equal the start states
-new_states = start_states;
+new_states = setdiff(start_states, forbidden_states);
 while 1
 
     temp_states=start_states;
@@ -23,7 +23,7 @@ while 1
     % Only find new states, this is to minimize the calculations
     % needed for bigger automatas, setdiff was needed to prevent inf loop
     % at for example automata A from example with synched automatas from lecture
-    new_states = setdiff(unique([found_trans(:,3)']),start_states);
+    new_states = setdiff(setdiff(unique([found_trans(:,3)']),start_states),forbidden_states);
 
     % Combines old states with the new
     start_states = unique([start_states new_states]);
