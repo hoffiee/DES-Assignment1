@@ -1,4 +1,9 @@
 % This is not done!
+%
+% * \forbidden states
+%
+%
+%
 
 % 3. function aut1aut2 = synch(aut1, aut2)
 % Returns the synchronous composition of two automata
@@ -60,24 +65,62 @@ function aut1aut2 = synch(aut1, aut2)
     init = merge_state(aut1.init, aut2.init);
     trans={};
     synched_states= {init};
-    new_states={};
     current_state = {init};
+    % new_states={};
+    
 
+    % ==============================================
+    % ===== SAFETY DURING DEVELOPMENT - REMOVE =====
+    % ==============================================
     count = 1;
-    while 1
-        count = count +1;
-        temp_states=current_state % Denna ska vara orörd, används för jämförelse i slutet
-        synched_states=current_state
+    % ==============================================
+    % ===== SAFETY DURING DEVELOPMENT - REMOVE =====
+    % ==============================================
 
+
+    while 1
+
+
+        % ==============================================
+        % ===== SAFETY DURING DEVELOPMENT - REMOVE =====
+        % ==============================================
+        count = count +1;
+        % ==============================================
+        % ===== SAFETY DURING DEVELOPMENT - REMOVE =====
+        % ==============================================
+
+
+
+        % This is used to compare if no new transitions 
+        % or states was found during last iteration
+        temp_states = current_state 
+
+        % This is not used?
+        % synched_states = current_state
+
+        % Calculates how many states that needs to
+        % be checked, same principle as in reach.m
         nr_of_states = size(current_state);
 
-        % Yttre loopen, hanterar dem statesen som ska gås igenom
-        for i = 1:nr_of_states(2)
-            [s1 s2]=split_state(current_state{i});
 
+
+        % Sets new_states to empty so that it wont
+        % get any problems with iterations from before
+        new_states={}
+
+
+        % This is the 1st loop, it handles the amount of
+        % states that is going to be checked
+        for i = 1:nr_of_states(2)
+
+            % Splits the synched state into substates aut1 and aut2
+            [s1 s2] = split_state(current_state{i});
+
+            % Filter out which events that occur in substates aut1 and aut2
             events_in_s1 = filter_trans_by_source(aut1.trans, s1)
             events_in_s2 = filter_trans_by_source(aut2.trans, s2)
 
+            % Checks which events that is supposed to 
             common_events = intersect(events_in_s1(:,2), events_in_s2(:,2))
 
             s_common_events = size(common_events)
@@ -95,21 +138,34 @@ function aut1aut2 = synch(aut1, aut2)
                     s_new_states_aut2 = size(new_states_aut2);
                     for l = 1:s_new_states_aut2(1)
                         trans = add_tran(trans, current_state{i}, common_events{j}, merge_state(new_states_aut1{1,3},new_states_aut2{1,3}))
-                        new_states=unique([new_states merge_state(new_states_aut1{1,3},new_states_aut2{1,3})])
+                        new_states = unique([new_states merge_state(new_states_aut1{1,3},new_states_aut2{1,3})])
                     end
+
                 end
+                
             end
+
         end
 
-        current_state=setdiff(new_states,synched_states)
+
+        current_state = unique(setdiff(new_states, synched_states))
         synched_states = unique([synched_states, new_states])
         if isempty(current_state)
             break; 
         end
         disp(['iteration: ' int2str(count)])
-        if count == 5
+        
+
+
+        % ==============================================
+        % ===== SAFETY DURING DEVELOPMENT - REMOVE =====
+        % ==============================================
+        if count == 10
             break;
         end
+        % ==============================================
+        % ===== SAFETY DURING DEVELOPMENT - REMOVE =====
+        % ==============================================
 
           
         % % disp('Common_events for both automatas')
@@ -250,10 +306,10 @@ function aut1aut2 = synch(aut1, aut2)
     % ===============================
     % This is done directly in the creation of the automata
     
-    % ========================================
-    % ====== calculates marked states ========
-    % ====== Assumes 
-    % ========================================
+    % ===================================================
+    % ====== calculates marked states ===================
+    % ====== ##TODO lägga in den i trans algoritmen =====
+    % ===================================================
     saut1 = size(aut1.marked);
     saut2 = size(aut2.marked);
     marked = {};
