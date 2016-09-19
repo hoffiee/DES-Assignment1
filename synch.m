@@ -1,7 +1,7 @@
 % This is not done!
 %
 % * \forbidden states
-%
+% * FUNGERAR INTE NÄR MAN KÖR FLERA SYNCHS I RAD!!
 %
 %
 
@@ -41,10 +41,10 @@ function aut1aut2 = synch(aut1, aut2)
 
     % Set alphabet to equal if it is needed. Also fixes self loops.
     if isequal(aut1.events,aut2.events)
-        disp('equal languages')
+        % disp('equal languages')
         events=intersect(aut1.events,aut2.events);
     else
-        disp('not equal languages')
+        % disp('not equal languages')
         events=union(aut1.events,aut2.events); % Dont think this contributes, but its nice to mention it
 
         % Create self-loops for both automatas.
@@ -93,7 +93,7 @@ function aut1aut2 = synch(aut1, aut2)
 
         % This is used to compare if no new transitions 
         % or states was found during last iteration
-        temp_states = current_state 
+        temp_states = current_state;
 
         % This is not used?
         % synched_states = current_state
@@ -106,7 +106,7 @@ function aut1aut2 = synch(aut1, aut2)
 
         % Sets new_states to empty so that it wont
         % get any problems with iterations from before
-        new_states={}
+        new_states={};
 
 
         % This is the 1st loop, it handles the amount of
@@ -117,13 +117,13 @@ function aut1aut2 = synch(aut1, aut2)
             [s1 s2] = split_state(current_state{i});
 
             % Filter out which events that occur in substates aut1 and aut2
-            events_in_s1 = filter_trans_by_source(aut1.trans, s1)
-            events_in_s2 = filter_trans_by_source(aut2.trans, s2)
+            events_in_s1 = filter_trans_by_source(aut1.trans, s1);
+            events_in_s2 = filter_trans_by_source(aut2.trans, s2);
 
             % Checks which events that is supposed to 
-            common_events = intersect(events_in_s1(:,2), events_in_s2(:,2))
+            common_events = intersect(events_in_s1(:,2), events_in_s2(:,2));
 
-            s_common_events = size(common_events)
+            s_common_events = size(common_events);
 
             % Hanterar antalet gemensamma events
             for j = 1: s_common_events(1)
@@ -137,8 +137,8 @@ function aut1aut2 = synch(aut1, aut2)
                     % Loop som hanterar nya states i aut2
                     s_new_states_aut2 = size(new_states_aut2);
                     for l = 1:s_new_states_aut2(1)
-                        trans = add_tran(trans, current_state{i}, common_events{j}, merge_state(new_states_aut1{1,3},new_states_aut2{1,3}))
-                        new_states = unique([new_states merge_state(new_states_aut1{1,3},new_states_aut2{1,3})])
+                        trans = add_tran(trans, current_state{i}, common_events{j}, merge_state(new_states_aut1{1,3},new_states_aut2{1,3}));
+                        new_states = unique([new_states merge_state(new_states_aut1{1,3},new_states_aut2{1,3})]);
                     end
 
                 end
@@ -148,12 +148,12 @@ function aut1aut2 = synch(aut1, aut2)
         end
 
 
-        current_state = unique(setdiff(new_states, synched_states))
-        synched_states = unique([synched_states, new_states])
+        current_state = unique(setdiff(new_states, synched_states));
+        synched_states = unique([synched_states, new_states]);
         if isempty(current_state)
             break; 
         end
-        disp(['iteration: ' int2str(count)])
+        % disp(['iteration: ' int2str(count)]);
         
 
 
@@ -318,18 +318,19 @@ function aut1aut2 = synch(aut1, aut2)
             marked = [marked merge_state(aut1.marked{i}, aut2.marked{j})];
         end
     end
-    
+
+        
 
 
     % ===================================
     % ====== Create new automata ========
     % ===================================
     aut1aut2 = create_automaton(...
-        states,...   % States
+        synched_states,...   % States
         merge_state(aut1.init, aut2.init),...         % Initial state
         events,...   % Events (Alphabet)
         trans,... % Transitions (source, event, target)
-        marked); % Marked states
+        intersect(marked,synched_states)); % Marked states
 
 end
         
