@@ -3,22 +3,24 @@
 clear all, clf, close all, clc, format compact
 
 A = create_automaton(...
-        {'qa1','qa2'},...   % States
-        'qa1',...         % Initial state
+        {'a1','a2'},...   % States
+        'a1',...         % Initial state
         {'a', 'b', 'c'},...   % Events (Alphabet)
-        {'qa1', 'a', 'qa2';
-         'qa2', 'b', 'qa1';
-         'qa2', 'c', 'qa1'},... % Transitions (source, event, target)
-        {'qa1','qa2'})   % Marked states  
+        {'a1', 'a', 'a2';
+         'a2', 'b', 'a1';
+         'a2', 'c', 'a1'})%,... % Transitions (source, event, target)
+        % {})   % Marked states  
 
 B = create_automaton(...
-        {'qb1','qb2'},...   % States
-        'qb1',...         % Initial state
+        {'b1','b2'},...   % States
+        'b1',...         % Initial state
         {'a', 'b'},...   % Events (Alphabet)
-        {'qb1', 'a', 'qb2';
-         'qb2', 'b', 'qb1'},... % Transitions (source, event, target)
-        {'qb1'})   % Marked states
+        {'b1', 'a', 'b2';
+         'b2', 'b', 'b1'},... % Transitions (source, event, target)
+        {'b1'})   % Marked states
+
+
 
 tic
-synch(A,B);
+AB=synch(A,B)
 toc

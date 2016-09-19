@@ -5,18 +5,22 @@
 
 function aut1aut2 = synch(aut1, aut2)
     
-    % ===============================
-    % ====== Calculates states ======
-    % ===============================
-    saut1 = size(aut1.states);
-    saut2 = size(aut2.states);
-    states = {};
-    for i = 1:saut1(2)
-        for j = 1:saut2(2)
-            states = [states merge_state(aut1.states{i}, aut2.states{j})];
-        end
-    end
-    
+    % % ===============================
+    % % ====== Calculates states ======
+    % % ===============================
+    % saut1 = size(aut1.states);
+    % saut2 = size(aut2.states);
+    % states = {};
+    % for i = 1:saut1(2)
+    %     for j = 1:saut2(2)
+    %         states = [states merge_state(aut1.states{i}, aut2.states{j})];
+    %     end
+    % end
+
+    % Hurrdurr för att kunna köra.
+    states={};
+
+
     % ===============================
     % ====== calculates alphabet ==== - Seems to be working as intended
     % ===============================
@@ -24,14 +28,197 @@ function aut1aut2 = synch(aut1, aut2)
 
     % Check if its enough with isequal, if not it is needed to implement
     % setdiff on two cases and the result need to be empty 
+    
+    % =================================
+    % ====== Initial calculations =====
+    % =================================
+
+
+    % Set alphabet to equal if it is needed. Also fixes self loops.
     if isequal(aut1.events,aut2.events)
         disp('equal languages')
         events=intersect(aut1.events,aut2.events);
     else
         disp('not equal languages')
-        events=union(aut1.events,aut2.events);
-    end
+        events=union(aut1.events,aut2.events); % Dont think this contributes, but its nice to mention it
+
+        % Create self-loops for both automatas.
+        not_in_aut1 = setdiff(aut2.events, aut1.events);
+        aut1 = add_self_loops(aut1,not_in_aut1);
     
+        not_in_aut2 = setdiff(aut1.events, aut2.events);
+        aut2 = add_self_loops(aut2,not_in_aut2);
+    end
+
+
+    %======================================================
+    %===== KODEN FRÅN REACH ===============================
+    %===== Assumed to be working, verification needed =====
+    %======================================================
+
+    % new_states = setdiff(start_states, forbidden_states); - skit i forbidden just nu
+    init = merge_state(aut1.init, aut2.init);
+    trans={};
+    synched_states= {init};
+    new_states={};
+    current_state = {init};
+
+    count = 1;
+    while 1
+        count = count +1;
+        temp_states=current_state % Denna ska vara orörd, används för jämförelse i slutet
+        synched_states=current_state
+
+        nr_of_states = size(current_state);
+
+        % Yttre loopen, hanterar dem statesen som ska gås igenom
+        for i = 1:nr_of_states(2)
+            [s1 s2]=split_state(current_state{i});
+
+            events_in_s1 = filter_trans_by_source(aut1.trans, s1)
+            events_in_s2 = filter_trans_by_source(aut2.trans, s2)
+
+            common_events = intersect(events_in_s1(:,2), events_in_s2(:,2))
+
+            s_common_events = size(common_events)
+
+            % Hanterar antalet gemensamma events
+            for j = 1: s_common_events(1)
+                new_states_aut1 = filter_trans_by_events(events_in_s1,common_events(j));
+                new_states_aut2 = filter_trans_by_events(events_in_s2,common_events(j));
+
+                
+                % Loop som hanterar nya states i aut1                
+                s_new_states_aut1 = size(new_states_aut1);
+                for k = 1:s_new_states_aut1(1)
+                    % Loop som hanterar nya states i aut2
+                    s_new_states_aut2 = size(new_states_aut2);
+                    for l = 1:s_new_states_aut2(1)
+                        trans = add_tran(trans, current_state{i}, common_events{j}, merge_state(new_states_aut1{1,3},new_states_aut2{1,3}))
+                        new_states=unique([new_states merge_state(new_states_aut1{1,3},new_states_aut2{1,3})])
+                    end
+                end
+            end
+        end
+
+        current_state=setdiff(new_states,synched_states)
+        synched_states = unique([synched_states, new_states])
+        if isempty(current_state)
+            break; 
+        end
+        disp(['iteration: ' int2str(count)])
+        if count == 5
+            break;
+        end
+
+          
+        % % disp('Common_events for both automatas')
+        % common_events = intersect(events_in_s1(:,2), events_in_s2(:,2))
+        % % disp('size common events')
+        % s_common_events = size(common_events)
+
+
+        % Filter through all transitions by source. 
+        % found_trans_1 = filter_trans_by_source(aut.1, new_states);
+        
+        % Only find new states, this is to minimize the calculations
+        % needed for bigger automatas, setdiff was needed to prevent inf loop
+        % at for example automata A from example with synched automatas from lecture
+        % new_states = setdiff(setdiff(unique([found_trans(:,3)']),start_states),forbidden_states);
+
+        % Combines old states with the new
+        % start_states = unique([start_states new_states]);
+        
+        % If start_states is equal to temp_states that was set
+        % in the beginning of the iteration, then there was
+        % no transitions which gave new states, which means that
+        % all reachable states are found.
+        
+
+        % Alternative: Check if new_states is empty, then
+        % abort! this might require fewer calculations and is therefore
+        % quicker
+        % if 1%isempty(new_states)
+        %     break;
+        % end
+
+        % There was no notable difference during the example
+        % this could be due to the example being a small
+        % automata.
+    end
+
+    % reach_states = start_states;
+
+
+
+
+
+    %===================================
+    %===== KODEN INNAN REACH ===========
+    %===================================
+    
+    % % disp('All events that is included in the synchronization')
+    % events;
+    % % disp('Transitions for automata A')
+    % aut1.trans;
+    % % disp('Transitions for automata B')
+    % aut2.trans;
+
+
+
+    % % Creates initial state
+    % init = merge_state(aut1.init, aut2.init);
+    % trans={};
+    % current_state = {init}
+    % last_state = {init};
+    % while 1
+        
+
+
+    %     % ==============================
+    %     % ===== Allt med events ========
+    %     % ==============================
+    %     % disp('State s1 och s2')
+    %     [s1 s2] = split_state(current_state);
+    %     % disp('Events in both S1 and S2')
+    %     events_in_s1 = filter_trans_by_source(aut1.trans, s1);
+    %     events_in_s2 = filter_trans_by_source(aut2.trans, s2);        
+    %     % disp('Common_events for both automatas')
+    %     common_events = intersect(events_in_s1(:,2), events_in_s2(:,2));
+    %     % disp('size common events')
+    %     s_common_events = size(common_events);
+
+
+
+    %     nr_of_states = size(current_state)
+    %     % nr_of_states(2)
+    %     for j = 1:nr_of_states(2)
+    %         disp('Går in i första loopen')
+    %         for i = 1:s_common_events(2)
+    %             disp('går in i loop 2')
+    %             % calculate new state
+    %             t_state_1 = filter_trans_by_events(aut1.trans,common_events)
+    %             t_state_1 = t_state_1{1,3};
+    %             t_state_2 = filter_trans_by_events(aut2.trans,common_events)
+    %             t_state_2 = t_state_2{1,3};
+
+    %             trans = add_tran(trans, current_state, common_events{i}, merge_state(t_state_1,t_state_2));
+    %         end
+    %     end
+
+
+
+    %     if current_state == last_state
+    %         disp('Found them all')
+    %             break;
+    %     end
+
+    %     last_state = current_state;
+    %     current_state = filter_trans_by_events(trans, s_common_events)
+    % end
+
+
+    %
     % ====================================
     % ====== Calculates transitions ======
     % ====================================
@@ -48,33 +235,14 @@ function aut1aut2 = synch(aut1, aut2)
     % TIP, loop through common and uncommon events
     %common events 
 
-    % Används detta?
-    common = intersect(aut1.events,aut2.events);
-    uncommon = setdiff(aut1.events, aut2.events);
+    % % Används detta?
+    % common = intersect(aut1.events,aut2.events);
+    % uncommon = setdiff(aut1.events, aut2.events);
 
     % Make self loops so that aut1 and aut2 becomes aut1' aut2'
     
-    not_in_aut1 = setdiff(aut2.events, aut1.events);
-    aut1 = add_self_loops(aut1,not_in_aut1);
     
-    not_in_aut2 = setdiff(aut1.events, aut2.events);
-    aut2 = add_self_loops(aut2,not_in_aut2);
 
-
-
-
-    % Börja med common
-    saut = size(states);
-    for i = 1:saut(2)
-        % c_state=states{i}
-        % s=size(c_state)
-        % c_state(1:round(s(2)/2)-1)
-        % c_state(round(s(2)/2)+1:end)
-
-        [s1 s2] = split_state(states{i});
-    end
-
-    % Check common events
 
 
     % ===============================
@@ -104,7 +272,7 @@ function aut1aut2 = synch(aut1, aut2)
         states,...   % States
         merge_state(aut1.init, aut2.init),...         % Initial state
         events,...   % Events (Alphabet)
-        {},... % Transitions (source, event, target)
+        trans,... % Transitions (source, event, target)
         marked); % Marked states
 
 end
