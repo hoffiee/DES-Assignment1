@@ -1,4 +1,4 @@
-% 1. function reach_states = reach(start_states, trans)
+% 1. function reach_states = reach(start_states, trans, forbidden_states)
 % Returns the forward reachable states of a transition set
 
 % ========================================================

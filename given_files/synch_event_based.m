@@ -5,8 +5,10 @@
 
 function aut1aut2 = synch(aut1, aut2)
     
- 
-    states={};
+    % Calculates initial state
+    init = merge_state(aut1.init, aut2.init);
+    synched_states={init};
+    trans={};
 
 
     % Set alphabet to equal if it is needed. Also fixes self loops.
@@ -25,31 +27,44 @@ function aut1aut2 = synch(aut1, aut2)
         aut2 = add_self_loops(aut2,not_in_aut2);
     end
 
+    % events
+    % aut1
+    % aut2
 
+    % not_in_aut1
+    % not_in_aut2
 
-    init = merge_state(aut1.init, aut2.init);
-    trans={};
-    synched_states= {init};
-    current_state = {init};
-    % new_states={};
-    while 1
+    % Loop to handle each event
+    nr_of_events = size(events);
 
-
-
-
-        temp_states = current_state;
-
+    for e = 1:nr_of_events(2)
         
-        nr_of_states = size(current_state);
+        current_trans_aut1 = filter_trans_by_events(aut1.trans, events(e));
+        nr_in_aut1 = size(filter_trans_by_events(aut1.trans, events(e)));
+        nr_in_aut2 = size(filter_trans_by_events(aut2.trans, events(e)));
+        % disp(['event' events(e) ' is being handled'])
+        % This handles all events in aut 1 that is the same as events(e)
+        for e_aut1 = 1:nr_in_aut1(1)
 
+            current_trans_aut2 = filter_trans_by_events(aut2.trans, events(e));
+            
+            % This handles all events in aut 1 that is the same as events(e)
+            for e_aut2 = 1:nr_in_aut2(1)
+                    
+                new_state = merge_state(current_trans_aut1{e_aut1,1}, current_trans_aut2{e_aut2,1});
+                target_state = merge_state(current_trans_aut1{e_aut1,3}, current_trans_aut2{e_aut2,3});
 
+                synched_states = unique([synched_states, new_state, target_state]);
 
+                trans = add_tran(trans, new_state, events{e}, target_state);
 
-        if isempty(current_state)
-            break; 
-        end
-  
+            end
+            
+        end    
+
     end
+
+
 
     % ===================================================
     % ====== calculates marked states ===================
@@ -65,15 +80,40 @@ function aut1aut2 = synch(aut1, aut2)
     end
 
 
+    % ==================================================
+    % ===== Calculates forbidden states ================
+    % ==================================================
+    aut1.forbidden;
+    aut2.forbidden;
+
+    nr_forbidden_aut1 = size(aut1.forbidden);
+    nr_forbidden_aut2 = size(aut2.forbidden);
+
+    forbidden = {};
+
+    for i = 1:nr_forbidden_aut1(2)
+        for j = 1:nr_forbidden_aut2(2)
+            forbidden = [forbidden merge_state(aut1.forbidden(i), aut2.forbidden(j))];
+        end
+    end
+
+    
+    % Remove unreachable states
+    synched_states = reach(init, trans, {});
+
+    trans = filter_trans_by_source(trans, synched_states);
+
+    marked = intersect(synched_states, marked);
 
     % ===================================
     % ====== Create new automata ========
     % ===================================
     aut1aut2 = create_automaton(...
-        unique(synched_states),...   % States
-        merge_state(aut1.init, aut2.init),...         % Initial state
-        unique(events),...   % Events (Alphabet)
+        synched_states,...   % States
+        init,...         % Initial state
+        events,...   % Events (Alphabet)
         trans,... % Transitions (source, event, target)
-        marked);%intersect(marked,synched_states)); % Marked states
+        marked,...
+        forbidden);
 
 end

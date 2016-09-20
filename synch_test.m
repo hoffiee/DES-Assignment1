@@ -8,7 +8,7 @@ A = create_automaton(...
         {'a', 'b', 'c'},...   % Events (Alphabet)
         {'a1', 'a', 'a2';
          'a2', 'b', 'a1';
-         'a2', 'c', 'a1'})%,... % Transitions (source, event, target)
+         'a2', 'c', 'a1'});%,... % Transitions (source, event, target)
         % {})   % Marked states  
 
 B = create_automaton(...
@@ -17,10 +17,13 @@ B = create_automaton(...
         {'a', 'b'},...   % Events (Alphabet)
         {'b1', 'a', 'b2';
          'b2', 'b', 'b1'},... % Transitions (source, event, target)
-        {'b1'})   % Marked states
-
+        {'b1'});   % Marked states
 
 
 tic
-AB=synch(A,B)
+        AB=synch_event_based(A,B)   
 toc
+
+% tic
+%         AB=synch(A,B);
+% toc

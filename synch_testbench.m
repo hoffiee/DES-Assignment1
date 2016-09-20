@@ -40,7 +40,7 @@ corr_AB_test_1 = create_automaton(...
          'a2.b2','c','a1.b2'},... % Transitions (source, event, target)
         {'a1.b1'});   % Marked states
 tic
-AB_test_1=synch(A_test_1,B_test_1);
+AB_test_1=synch_event_based(A_test_1,B_test_1);
 time = toc;
 if isequal(AB_test_1,corr_AB_test_1)
 	disp('test 1 passed with elapsed time: ')
@@ -93,7 +93,7 @@ corr_AB_test_2 = create_automaton(...
         {'a1.b1','a1.b3','a1.b4','a2.b2','a2.b3','a2.b4','a3.b2'},...   % States
         'a1.b1',...         % Initial state
         {'a', 'b','c'},...   % Events (Alphabet)
-        unique({'a1.b1','b','a2.b3';
+        {'a1.b1','b','a2.b3';
          'a1.b1','c','a2.b3';
          'a1.b3','c','a2.b4';
          'a1.b4','c','a2.b3';
@@ -103,10 +103,10 @@ corr_AB_test_2 = create_automaton(...
          'a2.b3','c','a1.b4';
          'a2.b3','a','a2.b2';
          'a3.b2','c','a2.b3';
-		 'a2.b4','c','a1.b3'}),... % Transitions (source, event, target)
+		 'a2.b4','c','a1.b3'},... % Transitions (source, event, target)
         {'a1.b1'});   % Marked states
 tic
-AB_test_2=synch(A_test_2,B_test_2);
+AB_test_2=synch_event_based(A_test_2,B_test_2);
 time = toc;
 if isequal(AB_test_2,corr_AB_test_2)
 	disp('test 2 passed with elapsed time: ')
@@ -119,6 +119,8 @@ else
 	AB_test_2
 	corr_AB_test_2
 end
+
+
 
 
 % ================================
@@ -171,7 +173,7 @@ corr_AB_test_3 = create_automaton(...
 		 'a2.b4','c','a1.b3'},... % Transitions (source, event, target)
         {'a1.b1'});   % Marked states
 tic
-AB_test_3=synch(A_test_3,B_test_3);
+AB_test_3=synch_event_based(A_test_3,B_test_3);
 time = toc;
 if isequal(AB_test_3,corr_AB_test_3)
 	disp('test 3 passed with elapsed time: ')
