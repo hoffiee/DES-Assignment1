@@ -203,66 +203,6 @@ function aut1aut2 = synch(aut1, aut2)
         % automata.
     end
 
-    % reach_states = start_states;
-
-
-
-
-
-    %===================================
-    %===== KODEN INNAN REACH ===========
-    %===================================
-    
-    % % disp('All events that is included in the synchronization')
-    % events;
-    % % disp('Transitions for automata A')
-    % aut1.trans;
-    % % disp('Transitions for automata B')
-    % aut2.trans;
-
-
-
-    % % Creates initial state
-    % init = merge_state(aut1.init, aut2.init);
-    % trans={};
-    % current_state = {init}
-    % last_state = {init};
-    % while 1
-        
-
-
-    %     % ==============================
-    %     % ===== Allt med events ========
-    %     % ==============================
-    %     % disp('State s1 och s2')
-    %     [s1 s2] = split_state(current_state);
-    %     % disp('Events in both S1 and S2')
-    %     events_in_s1 = filter_trans_by_source(aut1.trans, s1);
-    %     events_in_s2 = filter_trans_by_source(aut2.trans, s2);        
-    %     % disp('Common_events for both automatas')
-    %     common_events = intersect(events_in_s1(:,2), events_in_s2(:,2));
-    %     % disp('size common events')
-    %     s_common_events = size(common_events);
-
-
-
-    %     nr_of_states = size(current_state)
-    %     % nr_of_states(2)
-    %     for j = 1:nr_of_states(2)
-    %         disp('Går in i första loopen')
-    %         for i = 1:s_common_events(2)
-    %             disp('går in i loop 2')
-    %             % calculate new state
-    %             t_state_1 = filter_trans_by_events(aut1.trans,common_events)
-    %             t_state_1 = t_state_1{1,3};
-    %             t_state_2 = filter_trans_by_events(aut2.trans,common_events)
-    %             t_state_2 = t_state_2{1,3};
-
-    %             trans = add_tran(trans, current_state, common_events{i}, merge_state(t_state_1,t_state_2));
-    %         end
-    %     end
-
-
 
     %     if current_state == last_state
     %         disp('Found them all')
@@ -272,34 +212,6 @@ function aut1aut2 = synch(aut1, aut2)
     %     last_state = current_state;
     %     current_state = filter_trans_by_events(trans, s_common_events)
     % end
-
-
-    %
-    % ====================================
-    % ====== Calculates transitions ======
-    % ====================================
-    
-
-    % Formal method
-    % case 1: if events element of L(aut1) intersect L(aut2)
-    % case 2: if events element of L(aut1) setdiff L(aut2)
-    % case 3: if events element of L(aut2) setdiff L(aut1)
-
-    % if ismember(A,intersect(aut1.events,aut2.events))
-
-
-    % TIP, loop through common and uncommon events
-    %common events 
-
-    % % Används detta?
-    % common = intersect(aut1.events,aut2.events);
-    % uncommon = setdiff(aut1.events, aut2.events);
-
-    % Make self loops so that aut1 and aut2 becomes aut1' aut2'
-    
-    
-
-
 
     % ===============================
     % ====== calculates init ========
@@ -319,19 +231,14 @@ function aut1aut2 = synch(aut1, aut2)
         end
     end
 
-        
-
-
     % ===================================
     % ====== Create new automata ========
     % ===================================
     aut1aut2 = create_automaton(...
         synched_states,...   % States
         merge_state(aut1.init, aut2.init),...         % Initial state
-        events,...   % Events (Alphabet)
-        trans,... % Transitions (source, event, target)
+        unique(events),...   % Events (Alphabet)
+        unique(trans),... % Transitions (source, event, target)
         intersect(marked,synched_states)); % Marked states
 
 end
-        
-        
