@@ -2,8 +2,9 @@
 %
 % * \forbidden states
 % * FUNGERAR INTE NÄR MAN KÖR FLERA SYNCHS I RAD!!
-%
-%
+% * Behöver modifieras inför det. Tror att det går att
+% köra via events istället för att utgå från states
+% * Kolla så inte unique förstör fler saker.
 
 % 3. function aut1aut2 = synch(aut1, aut2)
 % Returns the synchronous composition of two automata
@@ -235,10 +236,10 @@ function aut1aut2 = synch(aut1, aut2)
     % ====== Create new automata ========
     % ===================================
     aut1aut2 = create_automaton(...
-        synched_states,...   % States
+        unique(synched_states),...   % States
         merge_state(aut1.init, aut2.init),...         % Initial state
         unique(events),...   % Events (Alphabet)
-        unique(trans),... % Transitions (source, event, target)
-        intersect(marked,synched_states)); % Marked states
+        trans,... % Transitions (source, event, target)
+        marked);%intersect(marked,synched_states)); % Marked states
 
 end

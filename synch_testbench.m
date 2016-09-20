@@ -2,6 +2,9 @@
 %
 % This file acts as a testbench and test multiple cases
 % against a user defined answer
+
+
+% * Vidarearbeta
 %
 % =======================================================
 
@@ -32,9 +35,9 @@ corr_AB_test_1 = create_automaton(...
         {'a1.b1','a1.b2','a2.b2'},...   % States
         'a1.b1',...         % Initial state
         {'a', 'b','c'},...   % Events (Alphabet)
-        unique({'a1.b1', 'a', 'a2.b2';
+        {'a1.b1', 'a', 'a2.b2';
          'a2.b2', 'b', 'a1.b1';
-         'a2.b2','c','a1.b2'}),... % Transitions (source, event, target)
+         'a2.b2','c','a1.b2'},... % Transitions (source, event, target)
         {'a1.b1'});   % Marked states
 tic
 AB_test_1=synch(A_test_1,B_test_1);
@@ -155,7 +158,7 @@ corr_AB_test_3 = create_automaton(...
         {'a1.b1','a1.b3','a1.b4','a2.b2','a2.b3','a2.b4','a3.b2'},...   % States
         'a1.b1',...         % Initial state
         {'a', 'b','c'},...   % Events (Alphabet)
-        unique({'a1.b1','b','a2.b3';
+        {'a1.b1','b','a2.b3';
          'a1.b1','c','a2.b3';
          'a1.b3','c','a2.b4';
          'a1.b4','c','a2.b3';
@@ -165,7 +168,7 @@ corr_AB_test_3 = create_automaton(...
          'a2.b3','c','a1.b4';
          'a2.b3','a','a2.b2';
          'a3.b2','c','a2.b3';
-		 'a2.b4','c','a1.b3'}),... % Transitions (source, event, target)
+		 'a2.b4','c','a1.b3'},... % Transitions (source, event, target)
         {'a1.b1'});   % Marked states
 tic
 AB_test_3=synch(A_test_3,B_test_3);
