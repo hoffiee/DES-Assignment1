@@ -1,7 +1,5 @@
 function [] = fig(automaton, filename_no_ext)
 % fig  Generates a png-figure from an automaton.
-%   Requires installation of Graphviz (http://www.graphviz.org).
-%   Add Graphviz bin folder to the system path.
     if nargin < 2
         filename_no_ext = inputname(1);
     end
@@ -23,5 +21,11 @@ function [] = fig(automaton, filename_no_ext)
     fprintf(fid, '\tinit -> "%s";\n', automaton.init);
     fprintf(fid, '}');
     fclose(fid);
-    system(['dot -Tpng ' filename_no_ext '.dot -o ' filename_no_ext '.png']);
+    
+    currentDir = pwd; %get current path
+    filename_no_ext = strcat(currentDir,'\',filename_no_ext);
+    command = ['"' currentDir '\dot" "-Tpng" "' filename_no_ext '.dot" "-o" "' filename_no_ext '.png"'];
+    system(command);
+    
+    %system(['dot -Tpng ' filename_no_ext '.dot -o ' filename_no_ext '.png']);
     delete([filename_no_ext '.dot']);
