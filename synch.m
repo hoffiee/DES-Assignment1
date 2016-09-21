@@ -86,11 +86,11 @@ function aut1aut2 = synch(aut1, aut2)
 
     % Final additions
     % Remove states that isn't rechable
-    synched_states = reach(init, trans, {});
+    %synched_states = reach(init, trans, {});
     % Only include transitions for which the source is within synched_states
-    trans = filter_trans_by_source(trans, synched_states);
+    %trans = filter_trans_by_source(trans, synched_states);
     % Remove marked states that isn't reachable
-    marked = intersect(synched_states, marked);
+    %marked = intersect(synched_states, marked);
 
     % ===================================
     % ====== Create new automata ========

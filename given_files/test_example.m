@@ -20,4 +20,3 @@ P2 = create_automaton(...
          'p22', 'e', 'p21'},... % Transitions (source, event, target)
         {'p21','p22'});   % Marked states
 %fig(P2, 'P2');
-
