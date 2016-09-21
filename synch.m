@@ -8,18 +8,19 @@
 
 function aut1aut2 = synch(aut1, aut2)
     
-    % Calculates initial state
+    % Calculates initial state, add it to synched_states
     init = merge_state(aut1.init, aut2.init);
     synched_states={init};
+    % create an empty set of transitions
     trans={};
 
     % Set alphabet to equal if it is needed. Also fixes self loops.
-    if isequal(aut1.events,aut2.events)
-        % disp('equal languages')
+    if isequal(aut1.events,aut2.events) % This assumes that both events is sorted in order
+        % This is useless? 
         events=intersect(aut1.events,aut2.events);
     else
-        % disp('not equal languages')
-        events=union(aut1.events,aut2.events); % Dont think this contributes, but its nice to mention it
+        % Create the new language
+        events=union(aut1.events,aut2.events);
 
         % Create self-loops for both automatas.
         not_in_aut1 = setdiff(aut2.events, aut1.events);
