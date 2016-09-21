@@ -2,9 +2,6 @@
 %
 % This is the file containing the solutions and 
 % calculations for task 2.
-
-
-% * Ordningen av synchningen
 %
 % Author: Rickard & Per
 %==================================================
@@ -40,6 +37,8 @@ Sp2 = create_automaton(...
         '1',...         % Initial state
         {'c', 'd'},...   % Events (Alphabet)
         {'1', 'c', '2';
+         '2','c','2';
+         '1','e','1';
          '2', 'd', '1'},... % Transitions (source, event, target)
         {'1'});
 

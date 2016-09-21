@@ -7,7 +7,10 @@ function output = compare_automata(aut1, aut2)
 	if isempty([setdiff(aut1.states,aut2.states) setdiff(aut2.states,aut1.states)])
 		% disp('States is equal')
 	else
+		disp('states is not equal')
+		disp('aut1.states')
 		aut1.states
+		disp('aut2.states')
 		aut2.states
 		output = 0;
 	end
@@ -16,7 +19,11 @@ function output = compare_automata(aut1, aut2)
 	if isequal(aut1.init, aut2.init)
 		% disp('equal init state')
 	else
+		disp('init is not equal')
+		disp('aut1.init')
 		aut1.init
+		disp('init is not equal')
+		disp('aut2.init')
 		aut2.init
 		output = 0;
 	end
@@ -25,7 +32,10 @@ function output = compare_automata(aut1, aut2)
 	if isempty([setdiff(aut1.events, aut2.events) setdiff(aut2.events, aut1.events)])
 		% disp('they share the same events')
 	else
+		disp('events is not equal')
+		disp('aut1.events')
 		aut1.events
+		disp('aut2.events')
 		aut2.events
 		output = 0;
 	end

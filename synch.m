@@ -3,9 +3,6 @@
 % - Seems to be working better than our STATE_BASED algorithm,
 % it is performing slower and taking overall longer time to execute
 %
-% 3. function aut1aut2 = synch(aut1, aut2)
-% Returns the synchronous composition of two automata
-
 function aut1aut2 = synch(aut1, aut2)
     
     % Calculates initial state, add it to synched_states
@@ -39,7 +36,6 @@ function aut1aut2 = synch(aut1, aut2)
         nr_in_aut1 = size(filter_trans_by_events(aut1.trans, events(e)));
         nr_in_aut2 = size(filter_trans_by_events(aut2.trans, events(e)));
         
-
         % This handles all events in aut 1 that is the same as events(e)
         for e_aut1 = 1:nr_in_aut1(1)
 
@@ -47,14 +43,10 @@ function aut1aut2 = synch(aut1, aut2)
             
             % This handles all events in aut 1 that is the same as events(e)
             for e_aut2 = 1:nr_in_aut2(1)
-                    
                 new_state = merge_state(current_trans_aut1{e_aut1,1}, current_trans_aut2{e_aut2,1});
                 target_state = merge_state(current_trans_aut1{e_aut1,3}, current_trans_aut2{e_aut2,3});
-
                 synched_states = unique([synched_states, new_state, target_state]);
-
                 trans = add_tran(trans, new_state, events{e}, target_state);
-
             end
         end    
     end
@@ -77,20 +69,38 @@ function aut1aut2 = synch(aut1, aut2)
     nr_forbidden_aut1 = size(aut1.forbidden);
     nr_forbidden_aut2 = size(aut2.forbidden);
     forbidden = {};
-
     for i = 1:nr_forbidden_aut1(2)
         for j = 1:nr_forbidden_aut2(2)
-            forbidden = [forbidden merge_state(aut1.forbidden(i), aut2.forbidden(j))];
+            forbidden = [forbidden merge_state(aut1.forbidden{i}, aut2.forbidden{j})];
         end
     end
 
+
+
     % Final additions
-    % Remove states that isn't rechable
-    %synched_states = reach(init, trans, {});
+    synched_states = reach(init, trans, {});
     % Only include transitions for which the source is within synched_states
-    %trans = filter_trans_by_source(trans, synched_states);
+    trans = filter_trans_by_source(trans, synched_states);
     % Remove marked states that isn't reachable
-    %marked = intersect(synched_states, marked);
+    marked = intersect(synched_states, marked);
+
+
+    % This removes duplicate transitions
+    s_trans = size(trans);
+    removed = 0;
+    i = 1; j = 1;
+    while i <= s_trans(1)
+        j = 1;
+        while j <= s_trans(1)
+            if isequal(trans(i,:),trans(j,:)) && (i==j) == 0
+                s_trans(1) = s_trans(1) - 1;
+                trans(i,:) = [];
+            end 
+            j = j + 1;
+        end
+            i = i + 1;
+    end
+    
 
     % ===================================
     % ====== Create new automata ========
