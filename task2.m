@@ -36,9 +36,7 @@ Sp2 = create_automaton(...
         {'1','2'},...   % States
         '1',...         % Initial state
         {'c', 'd'},...   % Events (Alphabet)
-        {'1', 'c', '2';
-         '2','c','2';
-         '1','e','1';
+        {'1', 'c', '2'; %'2', 'c', '2'; '1','e', '1';
          '2', 'd', '1'},... % Transitions (source, event, target)
         {'1'});
 
@@ -59,4 +57,16 @@ coreachable = coreach(S.marked, S.trans, S.forbidden)
 % ====================
 % ===== d) ===========
 % ====================
+Sp2_modified = create_automaton(...
+        {'1','2'},...   % States
+        '1',...         % Initial state
+        {'c', 'd'},...   % Events (Alphabet)
+        {'1', 'c', '2';
+         '2', 'c', '2'; % Self loop in state 2 at event c
+         '1', 'e', '1'; % Self loop in state 1 at event e
+         '2', 'd', '1'},... % Transitions (source, event, target)
+        {'1'});
 
+
+P2Sp2_modified=synch(P2,Sp2_modified);
+S_modified=synch(P1Sp1,P2Sp2_modified)

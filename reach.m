@@ -15,8 +15,8 @@ function reach_states = reach(start_states, trans, forbidden_states)
         % had, then remove forbidden states
         new_states = setdiff(setdiff(unique([found_trans(:,3)']),start_states),forbidden_states);
 
-        % Add the new states to the ones we already had.
-        start_states = [start_states new_states];
+        % Add the new states to the ones we already had. Unique is used to sort 
+        start_states = unique([start_states new_states]);
         
         % Check if new_states is empty, then no new states was found
         % and therefore it is assumed that we have found all reachable
