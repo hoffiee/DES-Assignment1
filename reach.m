@@ -4,8 +4,8 @@ function reach_states = reach(start_states, trans, forbidden_states)
     % forbidden
     new_states = setdiff(start_states, forbidden_states);
 
-    % We want to do this until all reachable is found, therefore
-    % this loop is breaked with a if case after all calculations
+    % We want to do this until all reachable are found, therefore
+    % this loop is breaked with an if case after all calculations
     while 1
 
         % Find the transitions that we reach from our current states 
@@ -15,12 +15,11 @@ function reach_states = reach(start_states, trans, forbidden_states)
         % had, then remove forbidden states
         new_states = setdiff(setdiff(unique([found_trans(:,3)']),start_states),forbidden_states);
 
-        % Add the new states to the ones we already had. There may be
-        % a need for unique(), but it shouldn't be needed
+        % Add the new states to the ones we already had.
         start_states = [start_states new_states];
         
         % Check if new_states is empty, then no new states was found
-        % and therefore it is assumed that we have found all available
+        % and therefore it is assumed that we have found all reachable
         % states
         if isempty(new_states)
         	break;
