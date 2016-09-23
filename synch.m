@@ -14,6 +14,7 @@ function aut1aut2 = synch(aut1, aut2)
     % Set alphabet to equal if it is needed. Also adds self loops.
     if isequal(aut1.events,aut2.events) % This assumes that both events is sorted in order
         % if the alphabets is equal, there is no need to do anything
+        events=union(aut1.events,aut2.events);
     else % If the alphabet isn't equal.
         % Create the new language, if the case where the alphabets is equal
         % but not in the same order, this won't do anything special, and therefore
