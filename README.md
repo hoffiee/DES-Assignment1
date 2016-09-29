@@ -1,22 +1,29 @@
 # DES-Assignment1
 Source code for Assignment 1 in the course Discrete event systems
 
-## Progress
 
-1. Task 1, implement three functions
-	- ~~reach.m~~  - Works with lecture example
-	- ~~coreac.m~~ - Works with lecture example
-	- synch.m 
-		- ~~synch states och transitions~~
-		- Init
-		- forbidden states
-		- events
-		- Marked states
-		- forbidden states
-		- Verification of synch.
+# Assignment 1
 
-2. Task 2
+### Progress
 
+Task 1, implement three functions
+	- ~~reach.m~~  
+	- ~~coreac.m~~ 
+	- ~~synch.m~~ 
+
+Task 2, Use implemented functions to analyze a automata
+	- Done
+
+
+# Assigmnent 2
+
+### Progress
+
+
+
+# Assigmnent 3
+
+### Progress
 
 Author
 Rickard and Per
