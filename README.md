@@ -21,7 +21,7 @@ Task 2, Use implemented functions to analyze a automata
 
 
 
-# Assigmnent 3
+# Assigmnent 3te
 
 ### Progress
 
