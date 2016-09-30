@@ -2,8 +2,7 @@ function Q_s = safestatesynthesis(Q, events, trans, Q_m, Q_x)
 % function Q_s = safestatesynthesis(Q, Sigma, Sigma_u, delta, Q_m, Q_x) 
 % Man kan ju lika gärna skicka in en automata
 
-k = 0;
-X_0 = Q_x;
+
 
 % There is a need to divide the transitions into
 % controllable and uncontrollable events
@@ -19,29 +18,38 @@ for i = 1:s_events(2)
 	end
 end
 
-events_c = setdiff(events,events_u)
-events_u
+events_c = setdiff(events,events_u);
+events_u;
+
+% Divide transitions into controllable and uncontrollable
+trans_c = filter_trans_by_events(trans, events_c);
+trans_u = filter_trans_by_events(trans, events_u);
+
+
 % Development safety, prevent inf loop
 count = 0;
 times = 10;
 
-% Dela upp transitions i controllable / uncontrollable.
+% k = 0;
+X_0 = Q_x;
 
 
 while 1 
 	% Dev safety
 	count = count +1;
-	k = k + 1;
+	% k = k + 1;
 
+	% is this including both controllable and uncontrollable, or only
+	% controllable?
 	Qp = coreach(Q_m, trans, X_0) % Controllable events
-	Qpp = coreach(setdiff(Q,Qp), trans, {}) % uncontrollable events
+	Qpp = coreach(setdiff(Q,Qp), trans_u, {}) % uncontrollable events
 
 	X_k = union(X_0, Qpp)
-	X_0 = X_k
+	% X_0 = X_k
 
  
 	if isequal(X_k,X_0)
-		disp('Both are equal')
+		disp('Safe state synthesis is complete')
 		break;
 	end
 
@@ -58,4 +66,4 @@ while 1
 	end
 end
 
-Q_s = setdiff(Q,X_k)
+Q_s = setdiff(Q,X_k);
