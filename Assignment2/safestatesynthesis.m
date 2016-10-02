@@ -34,6 +34,11 @@ times = 10;
 X_0 = Q_x;
 
 
+% ===========================================================
+% ===== Kolla sida 100 i lecture notes för att 			=====
+% ===== se metod för att ta bort uncontrollable states 	=====
+% ===========================================================
+
 while 1 
 	% Dev safety
 	count = count +1;
@@ -41,12 +46,11 @@ while 1
 
 	% is this including both controllable and uncontrollable, or only
 	% controllable?
-	Qp = coreach(Q_m, trans, X_0) % Controllable events
+	Qp = coreach(Q_m, trans_c, X_0) % Controllable events
 	Qpp = coreach(setdiff(Q,Qp), trans_u, {}) % uncontrollable events
 
 	X_k = union(X_0, Qpp)
 	% X_0 = X_k
-
  
 	if isequal(X_k,X_0)
 		disp('Safe state synthesis is complete')

@@ -126,5 +126,72 @@ end
 S = safestatesynthesis(S_0.states, S_0.events, S_0.trans, S_0.marked, S_0.forbidden)
 
 
+% ===========================================
+% ===== Test for uncontrollable states  =====
+% ===== 7.4,
+% ===========================================
+
+% =======================================
+% ======        TESTCASE 2          =====
+% ====== Uncontrollable supervisor  =====
+% ====== figure 7.4 lecture notes   =====
+% =======================================
+disp('Testcase fig 7.4')
+P = create_automaton(...
+        {'1','2','3','4','5'},...   % States
+        '1',...                     % Initial state
+        {'a','b','c','!d'},...      % Events (Alphabet)
+        {'1','a','2';...
+        '2','b','4';...
+        '1','c','3';...
+        '2','!d','5';...
+        '3','!d','4'});%...           % Transitions (source, event, target)
+        % {'4'});                     % Marked states         
+Sp = create_automaton(...
+        {'1','2','3','4'},...       % States
+        '1',...                     % Initial state
+        {'a', 'b','c','!d'},...     % Events (Alphabet)
+        {'1','a','2';...
+         '2','b','4';...
+         '1','c','3';...
+         '3','!d','4'},... % Transitions (source, event, target)
+        {'4'});   % Marked states
+
+
+S_0 = synch(P, Sp)
+
+Q_uc = {};
+
+s_events = size(S_0.events);
+events_u = {};
+
+for i = 1:s_events(2)
+    S_0.events{i};
+    if sum(ismember(S_0.events{i},'!')) == 0
+
+    else
+        events_u = [events_u S_0.events{i}];
+    end
+end
+
+events_c = setdiff(S_0.events,events_u);
+events_u;
+
+% Divide transitions into controllable and uncontrollable
+trans_c = filter_trans_by_events(S_0.trans, events_c);
+trans_u = filter_trans_by_events(S_0.trans, events_u);
+
+
+first_term = intersect(events_u, S_0.events)
+second_term = 
+
+%⟨p,q⟩∈QP||S|∃σ ∈Σ ∩ΣS ∧δP(p,σ )∈QP ∧δS(q,σ )notdefined
+                
+
+
+
+
+
+
 
 

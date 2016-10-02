@@ -78,3 +78,8 @@ function output = compare_automata(aut1, aut2)
 	end
 
 
+	% WHY
+	if (output == 1)
+		disp('The automatas is equal')
+	end
+
