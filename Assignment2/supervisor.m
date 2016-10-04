@@ -17,6 +17,10 @@ function S = supervisor(P,Sp,Sigma_u)
 	S_0 = synch(P, Sp)
 
 
+	disp('remove blocking states')
+	% S_0.forbidden = [S_0.forbidden Q_uc]
+	S_0.states = coreach(S_0.marked, S_0.trans, S_0.forbidden)
+
 	Q_uc = {};
 
 	s_events = size(S_0.events);
@@ -118,12 +122,17 @@ function S = supervisor(P,Sp,Sigma_u)
 			i = i + 1;
 		end
 
-        
     end
 
-    % safestatesynthesis(S_0.states, S_0.events, S_0.trans, S_0.marked, {'p2.Sp2'})
+    
+    
+    
 
-	S=S_0;
+    S_0.states = safestatesynthesis(S_0.states, S_0.events, Sigma_u, S_0.trans, S_0.marked, Q_uc)
+	
+
+
+    S = clean_transitions(S_0);
 
 
 end
