@@ -1,4 +1,4 @@
-function reach_states = reach(start_states, trans, forbidden_states)
+function reach_states = reach(Sigma, trans, start_states, forbidden_states)
 
     % Start looking at the initial states, remove state if it is
     % forbidden
@@ -9,7 +9,8 @@ function reach_states = reach(start_states, trans, forbidden_states)
     while 1
 
         % Find the transitions that we reach from our current states 
-        found_trans = filter_trans_by_source(trans, new_states);
+        allowed_trans = filter_trans_by_events(trans, Sigma);
+        found_trans = filter_trans_by_source(allowed_trans, new_states);
         
         % Take all unique targets that was found, remove the states that we already
         % had, then remove forbidden states

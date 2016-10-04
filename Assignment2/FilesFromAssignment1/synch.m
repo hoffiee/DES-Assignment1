@@ -91,7 +91,7 @@ function aut1aut2 = synch(aut1, aut2)
 
     % DETTA SKA INTE MED I RAPPORTKODEN
     % DETTA RENSAR VÅR AUTOMATA
-    synched_states = reach(init, trans, {});
+    synched_states = reach(events, trans, init, {});
     % Only include transitions for which the source is within synched_states
     trans = filter_trans_by_source(trans, synched_states);
     % Remove marked states that isn't reachable

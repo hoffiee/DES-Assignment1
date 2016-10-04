@@ -32,9 +32,9 @@ times = 20;
 
 % k = 0;
 disp('X_0 = Q_x')
-X_0 = Q_x
+X_0 = Q_x;
 
-X_k={''}
+X_k={''};
 % ===========================================================
 % ===== Kolla sida 100 i lecture notes för att 			=====
 % ===== se metod för att ta bort uncontrollable states 	=====
@@ -47,10 +47,10 @@ while ~isequal(X_k,X_0)
 
 	% is this including both controllable and uncontrollable, or only
 	% controllable?
-	Qp = coreach(Q_m, trans, X_0) % Controllable events
-	Qpp = coreach(setdiff(Q,Qp), trans_u, {}) % uncontrollable events
+	Qp = coreach(events, trans, Q_m, X_0); % Controllable events
+	Qpp = coreach(events_u, trans, setdiff(Q,Qp), {}); % uncontrollable events
 
-	X_k = union(X_0, Qpp)
+	X_k = union(X_0, Qpp);
 	% X_0 = X_k
  
 	% if isequal(X_k,X_0)
@@ -59,11 +59,10 @@ while ~isequal(X_k,X_0)
 	% end
 
 
-
 	% update X_0, the value X_k-2 is not needed, so just set X_0 = X_k-1
 	% This is only needed if the loop is supposed to keep
 	% on going
-	X_0 = X_k
+	X_0 = X_k;
 
 
 	% Dev safety, prevents inf-looping.
@@ -72,5 +71,8 @@ while ~isequal(X_k,X_0)
 		break
 	end
 end
+
+
+disp('Safe state synthesis done')
 
 Q_s = setdiff(Q,X_k);
