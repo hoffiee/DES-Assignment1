@@ -17,28 +17,31 @@ function S = supervisor(P,Sp,Sigma_u)
 	S_0 = synch(P, Sp)
 	S_0.trans
 
-	S_temp = S_0;
-	count = 0;
-	while 1
-		count = count + 1;
+	% S_temp = S_0;
+	% count = 0;
+	% while 1
+	% 	count = count + 1;
 
-		S_0 = uncontrollable(S_0,P,Sp,Sigma_u)
-		S_0.states = safestatesynthesis(S_0.states, S_0.events, Sigma_u, S_0.trans, S_0.marked, S_0.forbidden);
-		Q_ex = coreach(Sigma_u, S_0.trans, S_0.forbidden, {})
-		S_0.states = setdiff(S_0.states, Q_ex)
-		if compare_automata(S_0,S_temp)
+	S_0 = uncontrollable(S_0,P,Sp,Sigma_u)
+	Q_ex = coreach(Sigma_u, S_0.trans, S_0.forbidden, {});
+	S_0.forbidden = [S_0.forbidden Q_ex]
+	S_0.states = safestatesynthesis(S_0.states, S_0.events, Sigma_u, S_0.trans, S_0.marked, S_0.forbidden);
 		
-			break;
-		end
+	% It seems that there is no need to loop this. 
 
-		S_temp = S_0;
-		if count > 10
-			disp('prevented inf loop')
-			break;
-		end
-	end
 
-	S_temp = S_0;
+	% 	if compare_automata(S_0,S_temp)
+	% 		break;
+	% 	end
+
+	% 	S_temp = S_0;
+	% 	if count > 10
+	% 		disp('prevented inf loop')
+	% 		break;
+	% 	end
+	% end
+
+	% S_temp = S_0;
 	% count = 0;
 	% while 1
 	% 	count = count + 1;
@@ -60,7 +63,8 @@ function S = supervisor(P,Sp,Sigma_u)
    
 	
 
-
+	% This removes transitions that isnt used at all or that 
+	% leads to or from an non existing state
     S = clean_trans(S_0);
 
 
