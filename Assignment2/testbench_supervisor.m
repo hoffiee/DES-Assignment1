@@ -84,8 +84,6 @@ Sp1Sp2  = synch(Sp1,Sp2);
 S = supervisor(P1P2,Sp1Sp2,{'b'})
 
 
-
-
 % =======================================
 % ====== Uncontrollable supervisor 	=====
 % ====== figure 7.4 lecture notes	=====
@@ -222,7 +220,7 @@ P = create_automaton(...
         'p6','!d','p7';...
         'p7','!d','p8';...
         'p3','!d','p4'},...           % Transitions (source, event, target)
-        {'p4'});                     % Marked states         
+        {'p4'});                     % Marked states
 Sp = create_automaton(...
         {'Sp1','Sp2','Sp3','Sp4','Sp5','Sp6','Sp7'},...       % States
         'Sp1',...                     % Initial state
@@ -237,10 +235,7 @@ Sp = create_automaton(...
          'Sp6','!d','Sp7'},... % Transitions (source, event, target)
         {'Sp4'});   % Marked states
 
-
-
-
-S=supervisor(P,Sp, {'!d'})
+S=supervisor(P,Sp, {'b','!d'})
 
                 
 
