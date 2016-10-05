@@ -40,7 +40,6 @@ Sp = create_automaton(...
 S_6_4 = supervisor(P,Sp, {'!d'})
 
 
-
 % =======================================
 % ======        TESTCASE 3          =====
 % ====== figure 7.2 lecture notes   =====

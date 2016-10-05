@@ -13,24 +13,16 @@ function S = supervisor(P,Sp,Sigma_u)
 % implementing Algorithm 2 and Algorithm 3 in the lecture
 % notes.
 
-
 	S_0 = synch(P, Sp);
 	% S_0.trans;
-
-	% S_temp = S_0;
-	% count = 0;
-	% while 1
-	% 	count = count + 1;
 
 	S_0 = uncontrollable(S_0,P,Sp,Sigma_u);
 	Q_ex = coreach(Sigma_u, S_0.trans, S_0.forbidden, {});
 	S_0.forbidden = unique([S_0.forbidden Q_ex]);
-	S_0.states = safestatesynthesis(S_0.states, S_0.events, Sigma_u, S_0.trans, S_0.marked, S_0.forbidden);
-		
+	S_0.states = safestatesynthesis(S_0.states, S_0.events, Sigma_u, S_0.trans, S_0.marked, S_0.forbidden);		
 
-	% This removes transitions that isnt used at all or that 
+	% This removes transitions that isn't used at all or that 
 	% leads to or from an non existing state
     S = clean_trans(S_0);
-
 
 end

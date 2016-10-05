@@ -8,7 +8,7 @@ disp('================')
 disp('Testcase fig 7.5')
 disp('================')
 P = create_automaton(...
-        {'1','2','3','4','5','6'},...   % States
+        {'p1','p2','p3','p4','5','6'},...   % States
         '1',...         			% Initial state
         {'a','b','c','!d'},...   	% Events (Alphabet)
         {'1','a','2';...
