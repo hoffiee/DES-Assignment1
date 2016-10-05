@@ -129,10 +129,7 @@ corr_S = create_automaton(...
         {'4.4'},...		% Marked states
         {'2.2'});   	% Forbidden states?
 
-
 S_7_4 = supervisor(P,Sp,{'!d'})
-
-
 
 % =======================================
 % ====== 		TESTCASE 2            =====
@@ -185,14 +182,8 @@ corr_S = create_automaton(...
         {'1.1','c','3.3';...
          '3.3','!d','4.4'},... % Transitions (source, event, target)
         {'4.4'});		% Marked states
-          
-% S_0=synch(P,Sp);
-
-% S = safestatesynthesis(S_0.states, S_0.events, S_0.trans, S_0.marked, S_0.forbidden)
 
 S_7_5 = supervisor(P,Sp,{'!d'})
-
-
 
 % =======================================
 % ====== figure 7.7 lecture notes   =====
