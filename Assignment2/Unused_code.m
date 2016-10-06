@@ -34,3 +34,34 @@
 	% 	end
 
  %    end
+
+
+
+
+
+% =======================================
+% ======== Från uncontrollable ==========
+% =======================================
+
+
+% Check the number of events - NOT IN USE?
+	% s_events = size(S_0.events);
+
+
+	% filter out the uncontrollable events
+	% events_c = setdiff(S_0.events, Sigma_u);
+
+
+% Clears the uncontrollable events list --- AT THE MOMENT NOT IN USE
+% events_u = {};
+
+
+
+% Divide transitions into controllable and uncontrollable --- NOT IN USE AT THE MOMENT
+% trans_c = filter_trans_by_events(S_0.trans, events_c);
+% trans_u = filter_trans_by_events(S_0.trans, Sigma_u);
+
+
+% NOT IN USE AT THE MOMENT
+% states_u = filter_trans_by_events(S_0.trans, Sigma_u);
+% states_u(:,1);

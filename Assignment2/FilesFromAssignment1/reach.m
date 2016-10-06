@@ -8,8 +8,9 @@ function reach_states = reach(Sigma, trans, start_states, forbidden_states)
     % this loop is breaked with an if case after all calculations
     while 1
 
-        % Find the transitions that we reach from our current states 
+        % Filter out the allowed transitionss
         allowed_trans = filter_trans_by_events(trans, Sigma);
+        % Find the transitions that we reach from our current states 
         found_trans = filter_trans_by_source(allowed_trans, new_states);
         
         % Take all unique targets that was found, remove the states that we already
