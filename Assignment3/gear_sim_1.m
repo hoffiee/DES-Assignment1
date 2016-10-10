@@ -28,42 +28,59 @@ v(2) = a(1)*v(1)+(1-a(1))*r(1);
 
 
 for i = 2:s_r(2)
-i
+
 	if (v(i) <= 30) && (v(i) >= v(i-1))					% Gear 1 Accelerating
-		% disp('under 30')
+		% disp('G1acc')
 		v(i+1) = a(1)*v(i)+(1-a(1))*r(i);
 		q(i+1) = 1;
-	elseif (v(i) <= 10) && (v(i) <= v(i-1))				% Gear 1 decelerating
+	elseif v(i) <= 10 && (v(i) <= v(i-1))				% Gear 1 decelerating
+		% disp('G1dec')
 		v(i+1) = a(1)*v(i)+(1-a(1))*r(i);
 		q(i+1) = 1;
 
 	elseif v(i) >= 30 && v(i) <= 50 && v(i) >= v(i-1)	% Gear 2 Accelerating
-		% disp('under 50')
+		% disp('G2acc')
 		v(i+1) = a(2)*v(i)+(1-a(2))*r(i);
 		q(i+1) = 2;
 	elseif v(i) <= 30 && v(i) >= 10 && v(i) <= v(i-1)	% gear 2 decelerating
- 		% disp('under 50')
+ 		% disp('G2dec')
 		v(i+1) = a(2)*v(i)+(1-a(2))*r(i);
 		q(i+1) = 2;
-	elseif v(i) >= 50 && v(i) <= 70 					% gear 3 accelerating			
-		% disp('under 70')
+
+	elseif v(i) >= 50 && v(i) <= 70 && v(i) >= v(i-1) 					% gear 3 accelerating			
+		% disp('G3acc')
 		v(i+1) = a(3)*v(i)+(1-a(3))*r(i);
 		q(i+1) = 3;
-	elseif 												% Gear 3 decelerating
-		
-	elseif v(i) >= 70 									% gear 4 accelerating
-		% disp('över 70')
+	elseif v(i) <= 50 && v(i) >= 30 && v(i) <= v(i-1) 			
+		% disp('G3dec')									% Gear 3 decelerating
+		v(i+1) = a(3)*v(i)+(1-a(3))*r(i);
+		q(i+1) = 3;
+
+	elseif v(i) >= 70 || (v(i) <= 70 && v(i) >= 50 && v(i) <= v(i-1))				% gear 4 accelerating
+		% disp('G4acc')
 		v(i+1) = a(4)*v(i)+(1-a(4))*r(i);
-		q(i+1) = 4;
-	elseif 												% gear 4 decelerating
-			
+		q(i+1) = 4; 
+														% gear 4 decelerating
+		% disp('G4dec')
 	end
 end
 
 
-stem(v) 			% Speed output
-hold on
-% stem(r) 			% input output
-stem(q)				% gear output
+
+
+t = 0:h:t_tot;
+% velocity plot
+figure(1)
+plot(t,v)
+
+figure(2)
+plot(t,q,'r')
+
+
+
+% stem(v) 			% Speed output
+% hold on
+% % stem(r) 			% input output
+% stem(q)				% gear output
 
 % states= {'q1','q2','q3','q4'};	% States corresponding to 
